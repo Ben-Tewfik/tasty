@@ -1,7 +1,6 @@
 import { FaSearch } from "react-icons/fa";
 import { Pacifico } from "next/font/google";
 import Link from "next/link";
-import { useGlobalContext } from "@/context/recipesContext";
 const pacifico = Pacifico({
   subsets: ["latin"],
   weight: ["400"],
