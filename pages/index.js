@@ -1,8 +1,30 @@
 import Image from "next/image";
-import { Inter } from "next/font/google";
+import RecipeCategories from "@/components/RecipeCategories";
+import Head from "next/head";
+import axios from "axios";
 
-const inter = Inter({ subsets: ["latin"] });
+export async function getStaticProps() {
+  try {
+    const response = await axios(
+      "https://www.themealdb.com/api/json/v1/1/categories.php"
+    );
 
-export default function Home() {
-  return <div>hello world</div>;
+    return { props: { categories: response.data.categories } };
+  } catch (error) {
+    console.error("can not fetch data", error);
+    return { props: { categories: [] } };
+  }
+}
+
+export default function Home({ categories }) {
+  return (
+    <>
+      <Head>
+        <title>Tasty | Home</title>
+      </Head>
+      <main>
+        <RecipeCategories categories={categories} />
+      </main>
+    </>
+  );
 }
