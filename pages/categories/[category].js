@@ -1,7 +1,5 @@
 import MealsFilteredByCategory from "@/components/MealsFilteredByCategory";
 import axios from "axios";
-import Link from "next/link";
-import { useRouter } from "next/router";
 
 export async function getStaticPaths() {
   const {
