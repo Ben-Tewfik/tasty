@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function RecipeCategories({ categories }) {
   return (
-    <section className="w-[90%] max-w-[1170px] mx-auto py-10">
+    <section className="w-[90%] max-w-[1170px] mx-auto pb-10">
       <SectionTitle>highlights</SectionTitle>
       <div className="grid grid-cols-3 gap-y-8 md:grid-cols-5 lg:grid-cols-7">
         {categories.map(mealsCategory => {
