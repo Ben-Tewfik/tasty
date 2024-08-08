@@ -3,7 +3,7 @@ import Link from "next/link";
 const MealCard = ({ idMeal: id, strMeal: meal, strMealThumb: img }) => {
   return (
     <Link
-      href={`/singleMealByCategory/${id}`}
+      href={`/singleMeal/${id}`}
       key={id}
       className="rounded-lg relative"
       title={meal}
