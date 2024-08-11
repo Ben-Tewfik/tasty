@@ -1,8 +1,8 @@
 import Image from "next/image";
-import SectionTitle from "./SectionTitle";
+import { FaRegStar } from "react-icons/fa6";
+import { IoCameraOutline } from "react-icons/io5";
 
 export default function Meal({ meal }) {
-  console.log(meal);
   const {
     strMealThumb: img,
     strMeal: title,
@@ -20,9 +20,11 @@ export default function Meal({ meal }) {
     }
   }
   // array of instructions
-  const instructions = strInstructions
-    .split(".")
-    .filter(item => item !== `${/[0-9]/gi}`);
+  const instructions = strInstructions.split(".").filter(item => {
+    if (item.search(/[0-9]/) === -1 && item !== " ") {
+      return item;
+    }
+  });
   return (
     <>
       <section className="py-8 w-[90vw] mx-auto max-w-[1170px]">
@@ -81,9 +83,9 @@ export default function Meal({ meal }) {
                 Directions
               </h2>
               <ul className="ml-4 list-disc marker:text-red">
-                {instructions.map(item => {
+                {instructions.map((item, index) => {
                   return (
-                    <li key={item} className="font-semibold py-2">
+                    <li key={`${item}${index}`} className="font-semibold py-2">
                       {item}
                     </li>
                   );
@@ -95,10 +97,24 @@ export default function Meal({ meal }) {
         </div>
       </section>
       {/* add comment section later*/}
-      <section className="ml-8 md:ml-0 w-[90vw] mx-auto max-w-[1170px]">
-        <h2 className="text-red capitalize font-bold text-xl mb-2">
-          Ratings and Comments
-        </h2>
+      <section className="w-[90vw] mx-auto max-w-[1170px]">
+        <form className="ml-8 md:ml-0">
+          <h2 className="text-red capitalize font-bold text-xl mb-2">
+            Ratings and Comments
+          </h2>
+          <p>Please add a star rating before submitting your review</p>
+          <h4>
+            Tap to rate:{" "}
+            <span>
+              <FaRegStar />
+            </span>
+          </h4>
+          <label htmlFor="text">
+            <IoCameraOutline />
+            <input type="text" id="text" placeholder="Write your review here" />
+          </label>
+          <button type="submit">Submit Review</button>
+        </form>
       </section>
     </>
   );
