@@ -97,23 +97,37 @@ export default function Meal({ meal }) {
         </div>
       </section>
       {/* add comment section later*/}
-      <section className="w-[90vw] mx-auto max-w-[1170px]">
+      <section className="w-[90vw] mx-auto max-w-[1170px] mb-8">
         <form className="ml-8 md:ml-0">
           <h2 className="text-red capitalize font-bold text-xl mb-2">
             Ratings and Comments
           </h2>
-          <p>Please add a star rating before submitting your review</p>
-          <h4>
+          <p className="mb-2 text-gray-400">
+            Please add a star rating before submitting your review
+          </p>
+          <h4 className="flex items-center mb-2 gap-4 text-red font-semibold">
             Tap to rate:{" "}
             <span>
-              <FaRegStar />
+              <FaRegStar className="text-yellow-500" />
             </span>
           </h4>
-          <label htmlFor="text">
-            <IoCameraOutline />
-            <input type="text" id="text" placeholder="Write your review here" />
+          <label htmlFor="text" className="flex items-center gap-2 mb-3">
+            <span className="bg-red rounded-full p-2">
+              <IoCameraOutline className="text-white w-5 h-5" />
+            </span>
+            <input
+              type="text"
+              id="text"
+              placeholder="Write your review here"
+              className="border-grey border-2 pl-2 py-1 w-[350px]"
+            />
           </label>
-          <button type="submit">Submit Review</button>
+          <button
+            type="submit"
+            className="bg-red text-white px-2 py-1 block mx-auto sm:ml-36 sm:mx-0 rounded-sm"
+          >
+            Submit Review
+          </button>
         </form>
       </section>
     </>
