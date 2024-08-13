@@ -1,8 +1,12 @@
 import Image from "next/image";
+import { useState } from "react";
 import { FaRegStar } from "react-icons/fa6";
 import { IoCameraOutline } from "react-icons/io5";
-
+import { FaStar } from "react-icons/fa";
 export default function Meal({ meal }) {
+  const [rating, setRating] = useState(null);
+  const [hover, setHover] = useState(null);
+
   const {
     strMealThumb: img,
     strMeal: title,
@@ -96,7 +100,7 @@ export default function Meal({ meal }) {
           )}
         </div>
       </section>
-      {/* add comment section later*/}
+      {/* comment and rating section */}
       <section className="w-[90vw] mx-auto max-w-[1170px] mb-8">
         <form className="ml-8 md:ml-0">
           <h2 className="text-red capitalize font-bold text-xl mb-2">
@@ -105,10 +109,26 @@ export default function Meal({ meal }) {
           <p className="mb-2 text-gray-400">
             Please add a star rating before submitting your review
           </p>
-          <h4 className="flex items-center mb-2 gap-4 text-red font-semibold">
+          <h4 className="flex items-center mb-2 gap-2 text-red font-semibold">
             Tap to rate:{" "}
-            <span>
-              <FaRegStar className="text-yellow-500" />
+            <span className="flex">
+              {Array.from("12345").map((item, index) => {
+                const currentRating = index + 1;
+                return (
+                  <span
+                    key={item}
+                    onClick={() => setRating(currentRating)}
+                    onMouseEnter={() => setHover(currentRating)}
+                    onMouseLeave={() => setHover(null)}
+                  >
+                    {(rating || hover) > index ? (
+                      <FaStar color="gold" />
+                    ) : (
+                      <FaRegStar color="gold" />
+                    )}
+                  </span>
+                );
+              })}
             </span>
           </h4>
           <label htmlFor="text" className="flex items-center gap-2 mb-3">
