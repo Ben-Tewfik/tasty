@@ -1,4 +1,5 @@
-import MealsFilteredByCategory from "@/components/MealsFilteredByCategory";
+import MealsRecipes from "@/components/MealsRecipes";
+import SectionTitle from "@/components/SectionTitle";
 import axios from "axios";
 
 export async function getStaticPaths() {
@@ -31,6 +32,9 @@ export async function getStaticProps({ params }) {
 
 export default function Category({ category, mealsByCategory }) {
   return (
-    <MealsFilteredByCategory category={category} meals={mealsByCategory} />
+    <>
+      <SectionTitle>{category} Meals</SectionTitle>
+      <MealsRecipes meals={mealsByCategory} />
+    </>
   );
 }
