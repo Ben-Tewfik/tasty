@@ -1,11 +1,20 @@
 import { FaSearch } from "react-icons/fa";
 import { Pacifico } from "next/font/google";
 import Link from "next/link";
+import { useGlobalContext } from "@/contexts/RecipesContext";
+import { useRouter } from "next/router";
 const pacifico = Pacifico({
   subsets: ["latin"],
   weight: ["400"],
 });
 export default function Navbar() {
+  const { search, setSearch, fetchRecipes } = useGlobalContext();
+  const router = useRouter();
+  function handleSubmit(e) {
+    e.preventDefault();
+    fetchRecipes();
+    router.push("/meals");
+  }
   return (
     <nav className="h-16 shadow-md">
       <div className="w-[90vw] py-4 h-full max-w-[1170px] mx-auto flex justify-between gap-5 items-center">
@@ -17,16 +26,18 @@ export default function Navbar() {
           Tasty
         </Link>
         {/* form search */}
-        <form className="relative md:grow-1 md:basis-1/3">
+        <form
+          className="relative md:grow-1 md:basis-1/3"
+          onSubmit={handleSubmit}
+        >
           <input
             type="text"
             placeholder="Find Recipe"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
             className="border-grey w-full focus:border-dark px-2 py-1 rounded outline-none border-2"
           />
-          <button
-            type="submit"
-            className="absolute top-1/2 right-2 -translate-y-1/2"
-          >
+          <button className="absolute top-1/2 right-2 -translate-y-1/2">
             <FaSearch className="text-red" />
           </button>
         </form>
