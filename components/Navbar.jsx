@@ -13,6 +13,7 @@ export default function Navbar() {
   function handleSubmit(e) {
     e.preventDefault();
     fetchRecipes();
+    setSearch("");
     router.push("/meals");
   }
   return (
