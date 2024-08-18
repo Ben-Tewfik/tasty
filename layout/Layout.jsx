@@ -7,9 +7,9 @@ const roboto = Roboto({
 });
 export default function Layout({ children }) {
   return (
-    <main className={roboto.className}>
+    <main className={`${roboto.className} flex flex-col min-h-screen`}>
       <Navbar />
-      {children}
+      <div className="flex-1">{children}</div>
       <Footer />
     </main>
   );
