@@ -1,18 +1,25 @@
-import { Loader } from "@/components/Loader";
 import MealsRecipes from "@/components/MealsRecipes";
 import SectionTitle from "@/components/SectionTitle";
-import { useGlobalContext } from "@/contexts/RecipesContext";
+import axios from "axios";
 
-export default function Meals() {
-  const { recipes, loading } = useGlobalContext();
-  if (loading) {
-    return (
-      <section className="w-full h-screen flex items-center justify-center">
-        <Loader />
-      </section>
-    );
+export async function getServerSideProps(context) {
+  const { search } = context.query;
+  let recipes = [];
+  if (search) {
+    try {
+      const response = await axios(
+        `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`
+      );
+      recipes = response.data.meals || [];
+    } catch (error) {
+      console.error(error);
+    }
   }
-  if (recipes.length < 1) {
+  return { props: { recipes, search: search || "" } };
+}
+
+export default function Meals({ search, recipes }) {
+  if (recipes?.length < 1) {
     return (
       <section className="flex-1 text-center py-10">
         <h1 className="text-3xl mb-4">0 results found for your search.</h1>
@@ -20,9 +27,10 @@ export default function Meals() {
       </section>
     );
   }
+
   return (
     <>
-      <SectionTitle>Search Results</SectionTitle>
+      <SectionTitle>Search Results For {search}</SectionTitle>
       <MealsRecipes meals={recipes} />;
     </>
   );
