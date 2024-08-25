@@ -22,9 +22,8 @@ export default function Home({ categories }) {
       <Head>
         <title>Tasty | Home</title>
       </Head>
-      <main>
-        <RecipeCategories categories={categories} />
-      </main>
+
+      <RecipeCategories categories={categories} />
     </>
   );
 }
