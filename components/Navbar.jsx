@@ -3,18 +3,19 @@ import { Pacifico } from "next/font/google";
 import Link from "next/link";
 import { useGlobalContext } from "@/contexts/RecipesContext";
 import { useRouter } from "next/router";
+import { useState } from "react";
 const pacifico = Pacifico({
   subsets: ["latin"],
   weight: ["400"],
 });
 export default function Navbar() {
-  const { search, setSearch, fetchRecipes } = useGlobalContext();
+  const [search, setSearch] = useState("");
+
   const router = useRouter();
+
   function handleSubmit(e) {
     e.preventDefault();
-    fetchRecipes();
-    setSearch("");
-    router.push("/meals");
+    router.push(`/meals?search=${search}`);
   }
   return (
     <nav className="h-16 shadow-md">
