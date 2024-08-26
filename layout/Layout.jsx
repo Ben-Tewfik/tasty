@@ -7,9 +7,12 @@ const roboto = Roboto({
 });
 export default function Layout({ children }) {
   return (
-    <main className={`${roboto.className} flex flex-col h-screen`}>
+    <main
+      className={`${roboto.className}`}
+      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+    >
       <Navbar />
-      <div className="flex-1">{children}</div>
+      <div style={{ flexGrow: "1" }}>{children}</div>
       <Footer />
     </main>
   );
