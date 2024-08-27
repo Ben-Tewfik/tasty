@@ -23,7 +23,7 @@ export default function Navbar() {
         {/* logo */}
         <Link
           href={"/"}
-          className={`${pacifico.className} text-3xl md:text-5xl text-red text-center`}
+          className={`${pacifico.className} z-50 text-3xl md:text-5xl text-red text-center`}
         >
           Tasty
         </Link>
