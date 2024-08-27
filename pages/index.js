@@ -3,6 +3,7 @@ import RecipeCategories from "@/components/RecipeCategories";
 import Head from "next/head";
 import axios from "axios";
 import RandomMeal from "@/components/RandomMeal";
+import Hero from "@/components/Hero";
 
 export async function getStaticProps() {
   try {
@@ -32,7 +33,7 @@ export default function Home({ categories, randomMeal }) {
       <Head>
         <title>Tasty | Home</title>
       </Head>
-
+      <Hero />
       <RecipeCategories categories={categories} />
       <RandomMeal randomMeal={randomMeal} />
     </>
