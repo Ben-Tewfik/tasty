@@ -4,6 +4,8 @@ import Head from "next/head";
 import axios from "axios";
 import RandomMeal from "@/components/RandomMeal";
 import Hero from "@/components/Hero";
+import MealsRecipes from "@/components/MealsRecipes";
+import LatestRecipes from "@/components/LatestRecipes";
 
 export async function getStaticProps() {
   try {
@@ -15,10 +17,15 @@ export async function getStaticProps() {
     const response2 = await axios(
       "https://www.themealdb.com/api/json/v1/1/random.php"
     );
+    // fetch latest recipes
+    const response3 = await axios(
+      "https://www.themealdb.com/api/json/v1/1/search.php?f=a"
+    );
     return {
       props: {
         categories: response.data.categories,
         randomMeal: response2.data.meals[0],
+        latestRecipes: response3.data.meals,
       },
     };
   } catch (error) {
@@ -27,7 +34,7 @@ export async function getStaticProps() {
   }
 }
 
-export default function Home({ categories, randomMeal }) {
+export default function Home({ categories, randomMeal, latestRecipes }) {
   return (
     <>
       <Head>
@@ -36,6 +43,7 @@ export default function Home({ categories, randomMeal }) {
       <Hero />
       <RecipeCategories categories={categories} />
       <RandomMeal randomMeal={randomMeal} />
+      <LatestRecipes meals={latestRecipes} />
     </>
   );
 }
