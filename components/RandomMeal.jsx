@@ -10,7 +10,7 @@ export default function RandomMeal({ randomMeal }) {
     strInstructions: instructions,
   } = randomMeal;
   return (
-    <section className="w-[90vw] relative mx-auto mb-10 max-w-[1170px]">
+    <section className="w-[90vw] relative mx-auto mb-14 max-w-[1170px]">
       <div className="relative w-full md:w-[60%] rounded-xl h-96">
         <Image
           src={img}
