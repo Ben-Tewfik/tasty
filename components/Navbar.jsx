@@ -2,6 +2,7 @@ import { FaSearch } from "react-icons/fa";
 import { Pacifico } from "next/font/google";
 import Link from "next/link";
 import { useGlobalContext } from "@/contexts/RecipesContext";
+import { FaRegUser } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { useState } from "react";
 const pacifico = Pacifico({
@@ -44,7 +45,10 @@ export default function Navbar() {
           </button>
         </form>
         {/* social links or dark mode folder or login */}
-        <button className="">login</button>
+        <button className="text-dark md:shadow-md md:bg-red md:rounded-md md:text-white py-1 px-3 flex items-center justify-center gap-2 hover:text-red md:hover:bg-white transition-all duration-300">
+          <FaRegUser />
+          <span className="hidden md:block md:font-semibold">Login</span>
+        </button>
       </div>
     </nav>
   );
