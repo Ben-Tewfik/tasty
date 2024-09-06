@@ -54,9 +54,9 @@ export default function SignIn() {
               <input type="checkbox" id="checkbox" />
               <label htmlFor="checkbox">Remember me</label>
             </div>
-            <Link href={"test"} className="text-red">
+            <button className="text-red cursor-pointer">
               Forgot password?
-            </Link>
+            </button>
           </div>
           <button className="w-full py-2 mb-8 rounded-md capitalize bg-red text-white">
             login
@@ -65,9 +65,7 @@ export default function SignIn() {
         <div className="bg-grey py-7 text-center">
           <p>
             Dont&apos;t have an account?{" "}
-            <Link href={`#`} className="text-red">
-              Register
-            </Link>{" "}
+            <button className="text-red cursor-pointer">Register</button>{" "}
           </p>
         </div>
       </div>
