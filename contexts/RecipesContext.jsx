@@ -6,8 +6,11 @@ const GlobalContext = createContext();
 
 export default function RecipesContext({ children }) {
   const [openSignIn, setOpenSignIn] = useState(false);
+  const [openSignUp, setOpenSignUp] = useState(false);
   return (
-    <GlobalContext.Provider value={{ openSignIn, setOpenSignIn }}>
+    <GlobalContext.Provider
+      value={{ openSignIn, setOpenSignIn, openSignUp, setOpenSignUp }}
+    >
       {children}
     </GlobalContext.Provider>
   );
