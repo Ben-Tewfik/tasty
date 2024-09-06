@@ -5,9 +5,9 @@ import { createContext, useContext, useEffect, useState } from "react";
 const GlobalContext = createContext();
 
 export default function RecipesContext({ children }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [openSignIn, setOpenSignIn] = useState(false);
   return (
-    <GlobalContext.Provider value={{ isOpen, setIsOpen }}>
+    <GlobalContext.Provider value={{ openSignIn, setOpenSignIn }}>
       {children}
     </GlobalContext.Provider>
   );
