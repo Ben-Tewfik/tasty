@@ -6,11 +6,17 @@ const pacifico = Pacifico({
   weight: ["400"],
 });
 export default function SignIn() {
-  const { openSignIn, setOpenSignIn, setOpenSignUp } = useGlobalContext();
+  const { openSignIn, setOpenSignIn, setOpenSignUp, setOpenForgetPassword } =
+    useGlobalContext();
   // function to open signUp and close signIn
   function handleSignUp() {
     setOpenSignIn(false);
     setOpenSignUp(true);
+  }
+  // function to open forget password and open signIn
+  function handleForgetPassword() {
+    setOpenSignIn(false);
+    setOpenForgetPassword(true);
   }
   return (
     <section
@@ -58,7 +64,10 @@ export default function SignIn() {
               <input type="checkbox" id="checkbox" />
               <label htmlFor="checkbox">Remember me</label>
             </div>
-            <button className="text-red cursor-pointer">
+            <button
+              className="text-red cursor-pointer"
+              onClick={handleForgetPassword}
+            >
               Forgot password?
             </button>
           </div>

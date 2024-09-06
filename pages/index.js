@@ -7,6 +7,8 @@ import Hero from "@/components/Hero";
 import MealsRecipes from "@/components/MealsRecipes";
 import LatestRecipes from "@/components/LatestRecipes";
 import SignIn from "@/components/SignIn";
+import { SignUp } from "@/components/SignUp";
+import ForgetPassword from "@/components/ForgetPassword";
 
 export async function getStaticProps() {
   try {
@@ -42,6 +44,8 @@ export default function Home({ categories, randomMeal, latestRecipes }) {
         <title>Tasty | Home</title>
       </Head>
       <SignIn />
+      <SignUp />
+      <ForgetPassword />
       <Hero />
       <RecipeCategories categories={categories} />
       <RandomMeal randomMeal={randomMeal} />
