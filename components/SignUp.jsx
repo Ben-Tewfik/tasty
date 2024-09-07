@@ -68,14 +68,14 @@ export const SignUp = () => {
         <h1 className="text-center font-bold mb-4 pt-10 text-2xl">
           Create an Account
         </h1>
-        {/* error handling */}
-        {error && (
-          <p className="text-red font-semibold text-center capitalize mb-2 bg-pink py-2 w-[75%] rounded transition-all duration-300 mx-auto">
-            {error}
-          </p>
-        )}
         {/* form */}
         <form className="flex flex-col gap-4 px-14" onSubmit={handleSubmit}>
+          {/* error handling */}
+          {error && (
+            <p className="text-red font-semibold text-center capitalize mb-2 bg-pink py-2 w-full rounded transition-all duration-300 mx-auto">
+              {error}
+            </p>
+          )}
           <label htmlFor="name" className="block uppercase text-sm text-dark">
             your name
           </label>
