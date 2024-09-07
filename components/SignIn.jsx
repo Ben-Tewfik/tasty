@@ -1,13 +1,33 @@
 import { useGlobalContext } from "@/contexts/RecipesContext";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaCheck } from "react-icons/fa";
 import { Pacifico } from "next/font/google";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import {
+  browserLocalPersistence,
+  browserSessionPersistence,
+  setPersistence,
+} from "firebase/auth";
+import { auth } from "@/utils/firebase-config";
 const pacifico = Pacifico({
   subsets: ["latin"],
   weight: ["400"],
 });
 export default function SignIn() {
-  const { openSignIn, setOpenSignIn, setOpenSignUp, setOpenForgetPassword } =
-    useGlobalContext();
+  const {
+    openSignIn,
+    setOpenSignIn,
+    setOpenSignUp,
+    setOpenForgetPassword,
+    signIn,
+  } = useGlobalContext();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
   // function to open signUp and close signIn
   function handleSignUp() {
     setOpenSignIn(false);
@@ -17,6 +37,26 @@ export default function SignIn() {
   function handleForgetPassword() {
     setOpenSignIn(false);
     setOpenForgetPassword(true);
+  }
+  // signIn function
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const persistenceType = rememberMe
+        ? browserLocalPersistence
+        : browserSessionPersistence;
+      await setPersistence(auth, persistenceType);
+      await signIn(email, password);
+      router.push("/dashboard");
+      setOpenSignIn(false);
+    } catch (error) {
+      console.log(error.message);
+
+      setError("Failed to Sign In User Does not exist");
+    } finally {
+      setLoading(false);
+    }
   }
   return (
     <section
@@ -39,7 +79,12 @@ export default function SignIn() {
           </h3>
         </div>
         {/* form */}
-        <form className="flex flex-col gap-2 px-14">
+        <form className="flex flex-col gap-2 px-14" onSubmit={handleSubmit}>
+          {error && (
+            <p className="text-red font-semibold text-center capitalize mb-2 bg-pink py-2 w-full rounded transition-all duration-300 mx-auto">
+              {error}
+            </p>
+          )}
           <label htmlFor="email" className="block uppercase text-sm text-dark">
             email address
           </label>
@@ -48,6 +93,8 @@ export default function SignIn() {
             id="email"
             required
             placeholder="name@email.com"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
             className="block border-grey w-full focus:border-dark px-2 py-1 rounded outline-none border-2"
           />
           <label htmlFor="password" className="block uppercase text-sm">
@@ -57,13 +104,33 @@ export default function SignIn() {
             type="password"
             id="password"
             placeholder="password"
+            required
+            value={password}
+            onChange={e => setPassword(e.target.value)}
             className="block border-grey w-full focus:border-dark px-2 py-1 rounded outline-none border-2"
           />
           <div className="flex justify-between mt-2 mb-4">
-            <div className="flex items-center justify-center gap-2">
-              <input type="checkbox" id="checkbox" />
-              <label htmlFor="checkbox">Remember me</label>
-            </div>
+            <label
+              htmlFor="checkbox"
+              className="flex items-center justify-center gap-2"
+            >
+              <div className="relative flex">
+                <input
+                  type="checkbox"
+                  id="checkbox"
+                  checked={rememberMe}
+                  className="appearance-none w-4 h-4 border-2 rounded-md border-red"
+                  onChange={e => setRememberMe(e.target.checked)}
+                />
+                <FaCheck
+                  className={`text-red text-[12px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition duration-150 ${
+                    rememberMe ? "text-opacity-100" : "text-opacity-0"
+                  }`}
+                />
+              </div>
+              Remember me
+            </label>
+
             <button
               className="text-red cursor-pointer"
               onClick={handleForgetPassword}
@@ -71,8 +138,16 @@ export default function SignIn() {
               Forgot password?
             </button>
           </div>
-          <button className="w-full py-2 mb-8 rounded-md capitalize bg-red text-white">
-            login
+          <button
+            className={`${
+              loading ? "opacity-50" : null
+            } w-full py-2 mb-8 rounded-md capitalize bg-red text-white`}
+          >
+            {loading ? (
+              <div className="border-2 mx-auto animate-spin  border-transparent border-t-white rounded-full w-6 h-6"></div>
+            ) : (
+              "login"
+            )}
           </button>
         </form>
         <div className="bg-grey py-7 text-center">
