@@ -5,13 +5,17 @@ import { useGlobalContext } from "@/contexts/RecipesContext";
 import { FaRegUser } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import userProfile from "../public/profile.svg";
+import Image from "next/image";
+import ProfileDropdown from "./ProfileDropdown";
 const pacifico = Pacifico({
   subsets: ["latin"],
   weight: ["400"],
 });
 export default function Navbar() {
-  const { setOpenSignIn } = useGlobalContext();
+  const { setOpenSignIn, currentUser } = useGlobalContext();
   const [search, setSearch] = useState("");
+  const [openProfile, setOpenProfile] = useState(false);
 
   const router = useRouter();
 
@@ -46,13 +50,27 @@ export default function Navbar() {
           </button>
         </form>
         {/* social links or dark mode folder or login */}
-        <button
-          onClick={() => setOpenSignIn(true)}
-          className="text-dark md:shadow-md md:bg-red md:rounded-md md:text-white py-1 px-3 flex items-center justify-center gap-2 hover:text-red md:hover:bg-white transition-all duration-300"
-        >
-          <FaRegUser />
-          <span className="hidden md:block md:font-semibold">Login</span>
-        </button>
+        {currentUser ? (
+          <button
+            className="relative cursor-pointer"
+            onClick={() => setOpenProfile(!openProfile)}
+          >
+            <Image
+              src={currentUser?.photoURL ? currentUser?.photoURL : userProfile}
+              alt="user profile"
+              className="w-8 cursor-pointer"
+            />
+            {openProfile && <ProfileDropdown />}
+          </button>
+        ) : (
+          <button
+            onClick={() => setOpenSignIn(true)}
+            className="text-dark md:shadow-md md:bg-red md:rounded-md md:text-white py-1 px-3 flex items-center justify-center gap-2 hover:text-red md:hover:bg-white transition-all duration-300"
+          >
+            <FaRegUser />
+            <span className="hidden md:block md:font-semibold">Login</span>
+          </button>
+        )}
       </div>
     </nav>
   );
