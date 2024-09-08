@@ -48,7 +48,7 @@ export default function SignIn() {
         : browserSessionPersistence;
       await setPersistence(auth, persistenceType);
       await signIn(email, password);
-      router.push("/dashboard");
+      router.push("/profile");
       setOpenSignIn(false);
     } catch (error) {
       console.log(error.message);

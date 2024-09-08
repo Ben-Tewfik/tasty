@@ -43,7 +43,7 @@ export const SignUp = () => {
       setError("");
       setLoading(true);
       await signUp(email, password);
-      router.push("/dashboard");
+      router.push("/profile");
       setOpenSignUp(false);
     } catch (error) {
       console.log(error);
