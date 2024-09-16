@@ -3,7 +3,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaRegHeart, FaHeart, FaTimes } from "react-icons/fa";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  serverTimestamp,
+  where,
+} from "firebase/firestore";
 import { db } from "@/utils/firebase-config";
 
 const MealCard = ({ idMeal: id, strMeal: meal, strMealThumb: img }) => {
@@ -11,13 +18,20 @@ const MealCard = ({ idMeal: id, strMeal: meal, strMealThumb: img }) => {
   // collection ref
   const colRef = collection(db, "favoriteRecipes");
   // function that save favorite recipes
-  async function addToFavoriteRecipes() {
+  async function addToFavoriteRecipes(strMeal) {
     try {
-      await addDoc(colRef, {
-        strMeal: meal,
-        strMealThumb: img,
-        createdAt: serverTimestamp(),
-      });
+      const q = query(colRef, where("strMeal", "==", strMeal));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        await addDoc(colRef, {
+          strMeal: meal,
+          strMealThumb: img,
+          createdAt: serverTimestamp(),
+        });
+        // add tostify later
+      } else {
+        console.log("already exist");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -30,7 +44,7 @@ const MealCard = ({ idMeal: id, strMeal: meal, strMealThumb: img }) => {
         onHoverEnd={() => setIsHovered(false)}
         whileHover={{ scale: 1.2 }}
         transition={{ duration: 0.2 }}
-        onClick={addToFavoriteRecipes}
+        onClick={() => addToFavoriteRecipes(meal)}
         className="absolute top-2 right-2 size-8 rounded-full bg-red flex justify-center items-center z-10"
       >
         {isHovered ? <FaHeart color="white" /> : <FaRegHeart color="white" />}
