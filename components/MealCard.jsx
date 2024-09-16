@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaRegHeart, FaHeart, FaTimes } from "react-icons/fa";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/utils/firebase-config";
 
 const MealCard = ({ idMeal: id, strMeal: meal, strMealThumb: img }) => {
@@ -13,7 +13,11 @@ const MealCard = ({ idMeal: id, strMeal: meal, strMealThumb: img }) => {
   // function that save favorite recipes
   async function addToFavoriteRecipes() {
     try {
-      await addDoc(colRef, { strMeal: meal, strMealThumb: img });
+      await addDoc(colRef, {
+        strMeal: meal,
+        strMealThumb: img,
+        createdAt: serverTimestamp(),
+      });
     } catch (error) {
       console.log(error);
     }
