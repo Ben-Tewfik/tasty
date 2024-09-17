@@ -16,6 +16,7 @@ export default function RecipesContext({ children }) {
   const [openSignUp, setOpenSignUp] = useState(false);
   const [openForgetPassword, setOpenForgetPassword] = useState(false);
   const [currentUser, setCurrentUser] = useState();
+  const [loading, setLoading] = useState(true);
 
   //  sign up function
   function signUp(email, password) {
@@ -37,6 +38,7 @@ export default function RecipesContext({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       setCurrentUser(user);
+      setLoading(false);
     });
     return unsubscribe;
   }, []);
@@ -55,6 +57,7 @@ export default function RecipesContext({ children }) {
         currentUser,
         logout,
         resetPassword,
+        loading,
       }}
     >
       {children}
