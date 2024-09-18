@@ -1,5 +1,8 @@
+import ForgetPassword from "@/components/ForgetPassword";
 import MealsRecipes from "@/components/MealsRecipes";
 import SectionTitle from "@/components/SectionTitle";
+import SignIn from "@/components/SignIn";
+import { SignUp } from "@/components/SignUp";
 import axios from "axios";
 
 export async function getStaticPaths() {
@@ -35,6 +38,9 @@ export default function Category({ category, mealsByCategory }) {
     <>
       <SectionTitle>{category} Meals</SectionTitle>
       <MealsRecipes meals={mealsByCategory} />
+      <SignIn />
+      <SignUp />
+      <ForgetPassword />
     </>
   );
 }

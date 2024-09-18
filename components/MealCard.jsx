@@ -12,8 +12,10 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "@/utils/firebase-config";
+import { useGlobalContext } from "@/contexts/RecipesContext";
 
 const MealCard = ({ idMeal: id, strMeal: meal, strMealThumb: img }) => {
+  const { currentUser, setOpenSignIn } = useGlobalContext();
   const [isHovered, setIsHovered] = useState(false);
   // collection ref
   const colRef = collection(db, "favoriteRecipes");
@@ -22,15 +24,19 @@ const MealCard = ({ idMeal: id, strMeal: meal, strMealThumb: img }) => {
     try {
       const q = query(colRef, where("strMeal", "==", strMeal));
       const querySnapshot = await getDocs(q);
-      if (querySnapshot.empty) {
-        await addDoc(colRef, {
-          strMeal: meal,
-          strMealThumb: img,
-          createdAt: serverTimestamp(),
-        });
-        // add tostify later
+      if (!currentUser) {
+        setOpenSignIn(true);
       } else {
-        console.log("already exist");
+        if (querySnapshot.empty) {
+          await addDoc(colRef, {
+            strMeal: meal,
+            strMealThumb: img,
+            createdAt: serverTimestamp(),
+          });
+          // add tostify later
+        } else {
+          console.log("already exist");
+        }
       }
     } catch (error) {
       console.log(error);
