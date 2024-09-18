@@ -10,6 +10,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 export default function FavoriteMeals() {
   const { currentUser, loading } = useGlobalContext();
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  const [favoriteRecipesLoading, setFavoriteRecipesLoading] = useState(true);
   // router
   const router = useRouter();
   //    collection ref
@@ -22,16 +23,17 @@ export default function FavoriteMeals() {
         id: doc.id,
       }));
       setFavoriteRecipes(myFavoriteRecipes);
+      setFavoriteRecipesLoading(false);
     });
     return () => unsubscribe();
-  }, []);
+  }, [q]);
   useLayoutEffect(() => {
     if (!currentUser) {
       router.push("/");
     }
-  }, []);
+  }, [currentUser, router]);
 
-  if (loading || (!loading && !currentUser)) {
+  if (loading || (!loading && !currentUser) || favoriteRecipesLoading) {
     return (
       <section className="h-[70vh] flex justify-center items-center">
         <Loader />
