@@ -1,10 +1,10 @@
 import { useGlobalContext } from "@/contexts/RecipesContext";
-import { MdLockOutline } from "react-icons/md";
+import { MdLockOutline, MdAddAPhoto } from "react-icons/md";
 
 export default function ProfileSettings() {
   const { currentUser } = useGlobalContext();
   return (
-    <div className="bg-grey rounded-md px-3 max-w-[1170px] mx-auto">
+    <div className="bg-grey rounded-md pb-7 px-3 max-w-[1170px] mx-auto">
       <form>
         <div className="p-4 flex justify-between items-center">
           <h1 className="capitalize font-bold text-xl">personal info</h1>
@@ -66,7 +66,20 @@ export default function ProfileSettings() {
           placeholder="Display Name"
         />
         {/* this is for image to see how add a div later */}
-        <p>add image</p>
+        <div className="w-56 mx-auto">
+          <h3 className="capitalize font-bold mb-3">add image</h3>
+          <div className="bg-white flex items-center justify-center p-7 rounded-md">
+            <div>
+              <span className="bg-grey border-4 w-20 h-20 flex items-center justify-center mb-4 rounded-full border-red">
+                <MdAddAPhoto size={50} className="text-red" />
+              </span>
+              <input type="file" id="profile" className="hidden" />
+              <label htmlFor="profile" className="capitalize font-bold">
+                profile photo
+              </label>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
   );
