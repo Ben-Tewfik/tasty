@@ -1,8 +1,20 @@
 import { useGlobalContext } from "@/contexts/RecipesContext";
+import Image from "next/image";
+import { useRef, useState } from "react";
 import { MdLockOutline, MdAddAPhoto } from "react-icons/md";
 
 export default function ProfileSettings() {
   const { currentUser } = useGlobalContext();
+  const [image, setImage] = useState("");
+  const profileRef = useRef(null);
+  // function to add profile image
+  function handleImageClick() {
+    profileRef.current.click();
+  }
+  // function to store the uploaded image in the state
+  // function handleImageChange(e) {
+  //   console.log(e.target.files[0]);
+  // }
   return (
     <div className="bg-grey rounded-md pb-7 px-3 max-w-[1170px] mx-auto">
       <form>
@@ -65,15 +77,33 @@ export default function ProfileSettings() {
           className=" py-2 px-2 rounded-md w-full max-w-[500px] mb-2"
           placeholder="Display Name"
         />
-        {/* this is for image to see how add a div later */}
+        {/* add profile image */}
         <div className="w-56 mx-auto">
           <h3 className="capitalize font-bold mb-3">add image</h3>
-          <div className="bg-white flex items-center justify-center p-7 rounded-md">
+          <div
+            onClick={handleImageClick}
+            className="bg-white flex items-center justify-center p-7 rounded-md"
+          >
             <div>
-              <span className="bg-grey border-4 w-20 h-20 flex items-center justify-center mb-4 rounded-full border-red">
-                <MdAddAPhoto size={50} className="text-red" />
+              <span className="bg-grey relative border-4 w-20 h-20 flex items-center justify-center mb-4 rounded-full border-red">
+                {image ? (
+                  <Image
+                    src={URL.createObjectURL(image)}
+                    fill
+                    alt="Profile Image"
+                    className="object-cover rounded-full"
+                  />
+                ) : (
+                  <MdAddAPhoto size={50} className="text-red" />
+                )}
               </span>
-              <input type="file" id="profile" className="hidden" />
+              <input
+                type="file"
+                id="profile"
+                ref={profileRef}
+                className="hidden"
+                onChange={e => setImage(e.target.files[0])}
+              />
               <label htmlFor="profile" className="capitalize font-bold">
                 profile photo
               </label>
