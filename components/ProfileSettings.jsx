@@ -2,7 +2,8 @@ import { useGlobalContext } from "@/contexts/RecipesContext";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { MdLockOutline, MdAddAPhoto } from "react-icons/md";
-
+import { storage } from "@/utils/firebase-config";
+import { ref, uploadBytes } from "firebase/storage";
 export default function ProfileSettings() {
   const { currentUser } = useGlobalContext();
   const [image, setImage] = useState("");
@@ -11,16 +12,27 @@ export default function ProfileSettings() {
   function handleImageClick() {
     profileRef.current.click();
   }
-  // function to store the uploaded image in the state
-  // function handleImageChange(e) {
-  //   console.log(e.target.files[0]);
-  // }
+  // function to handle all profile settings
+  async function handleProfileSettings(e) {
+    e.preventDefault();
+    const profileImageRef = ref(storage, `profileImage/${image.name}`);
+    if (!image) return;
+    try {
+      await uploadBytes(profileImageRef, image);
+    } catch (error) {
+      // handle error toast
+      console.log(error);
+    }
+  }
   return (
     <div className="bg-grey rounded-md pb-7 px-3 max-w-[1170px] mx-auto">
       <form>
         <div className="p-4 flex justify-between items-center">
           <h1 className="capitalize font-bold text-xl">personal info</h1>
-          <button className="capitalize bg-red text-white py-2 px-4 rounded-md font-semibold">
+          <button
+            onClick={handleProfileSettings}
+            className="capitalize bg-red text-white py-2 px-4 rounded-md font-semibold"
+          >
             save changes
           </button>
         </div>
