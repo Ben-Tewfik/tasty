@@ -12,9 +12,6 @@ export default function Profile() {
       router.push("/");
     }
   }, [currentUser, loading, router]);
-  console.log(currentUser);
-
-  console.log(loading);
 
   if (loading || (!loading && !currentUser)) {
     return (
