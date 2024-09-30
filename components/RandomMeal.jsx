@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function RandomMeal({ randomMeal }) {
-  console.log(randomMeal);
   const {
     idMeal: id,
     strMealThumb: img,
