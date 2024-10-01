@@ -15,7 +15,7 @@ export default function RecipesContext({ children }) {
   const [openSignIn, setOpenSignIn] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
   const [openForgetPassword, setOpenForgetPassword] = useState(false);
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   //  sign up function
