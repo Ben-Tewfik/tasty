@@ -3,10 +3,10 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { MdLockOutline, MdAddAPhoto } from "react-icons/md";
 import { storage } from "@/utils/firebase-config";
-import { ref, uploadBytes } from "firebase/storage";
-export default function ProfileSettings() {
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+export default function ProfileSettings({ setImageUrl }) {
   const { currentUser } = useGlobalContext();
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState();
   const profileRef = useRef(null);
   // function to add profile image
   function handleImageClick() {
@@ -19,11 +19,15 @@ export default function ProfileSettings() {
     if (!image) return;
     try {
       await uploadBytes(profileImageRef, image);
+      const profileImage = await getDownloadURL(profileImageRef);
+
+      setImageUrl(profileImage);
     } catch (error) {
       // handle error toast
       console.log(error);
     }
   }
+
   return (
     <div className="bg-grey rounded-md pb-7 px-3 max-w-[1170px] mx-auto">
       <form>
@@ -41,84 +45,88 @@ export default function ProfileSettings() {
           Only you can see the information on this page. It will not be
           displayed for other users to see.
         </p>
-        <h2 className="capitalize font-bold text-xl mb-4">my basic info</h2>
-        <label htmlFor="email" className="block capitalize font-bold mb-1">
-          email address
-        </label>
-        <input
-          type="email"
-          id="email"
-          className=" py-2 px-2 rounded-md w-full mb-2 max-w-[500px]"
-          placeholder={currentUser?.email}
-        />
+        <div className="lg:grid lg:grid-cols-2">
+          <div>
+            <h2 className="capitalize font-bold text-xl mb-4">my basic info</h2>
+            <label htmlFor="email" className="block capitalize font-bold mb-1">
+              email address
+            </label>
+            <input
+              type="email"
+              id="email"
+              className=" py-2 px-2 rounded-md w-full mb-2 max-w-[500px]"
+              placeholder={currentUser?.email}
+            />
 
-        <label
-          htmlFor="firstName"
-          className="block capitalize font-bold mb-1 grow"
-        >
-          first Name
-        </label>
-        <input
-          type="text"
-          id="firstName"
-          className="grow py-2 px-2 rounded-md w-full max-w-[500px] mb-2"
-          placeholder="First Name"
-        />
-        <label
-          htmlFor="lastName"
-          className="block capitalize font-bold mb-1 grow"
-        >
-          last Name
-        </label>
-        <input
-          type="text"
-          id="lastName"
-          className="grow py-2 px-2 rounded-md w-full max-w-[500px] mb-2"
-          placeholder="Last Name"
-        />
+            <label
+              htmlFor="firstName"
+              className="block capitalize font-bold mb-1 grow"
+            >
+              first Name
+            </label>
+            <input
+              type="text"
+              id="firstName"
+              className="grow py-2 px-2 rounded-md w-full max-w-[500px] mb-2"
+              placeholder="First Name"
+            />
+            <label
+              htmlFor="lastName"
+              className="block capitalize font-bold mb-1 grow"
+            >
+              last Name
+            </label>
+            <input
+              type="text"
+              id="lastName"
+              className="grow py-2 px-2 rounded-md w-full max-w-[500px] mb-2"
+              placeholder="Last Name"
+            />
 
-        <label
-          htmlFor="displayName"
-          className="block capitalize font-bold mb-1"
-        >
-          display Name
-        </label>
-        <input
-          type="text"
-          id="displayName"
-          className=" py-2 px-2 rounded-md w-full max-w-[500px] mb-2"
-          placeholder="Display Name"
-        />
-        {/* add profile image */}
-        <div className="w-56 mx-auto">
-          <h3 className="capitalize font-bold mb-3">add image</h3>
-          <div
-            onClick={handleImageClick}
-            className="bg-white flex items-center justify-center p-7 rounded-md"
-          >
-            <div>
-              <span className="bg-grey relative border-4 w-20 h-20 flex items-center justify-center mb-4 rounded-full border-red">
-                {image ? (
-                  <Image
-                    src={URL.createObjectURL(image)}
-                    fill
-                    alt="Profile Image"
-                    className="object-cover rounded-full"
-                  />
-                ) : (
-                  <MdAddAPhoto size={50} className="text-red" />
-                )}
-              </span>
-              <input
-                type="file"
-                id="profile"
-                ref={profileRef}
-                className="hidden"
-                onChange={e => setImage(e.target.files[0])}
-              />
-              <label htmlFor="profile" className="capitalize font-bold">
-                profile photo
-              </label>
+            <label
+              htmlFor="displayName"
+              className="block capitalize font-bold mb-1"
+            >
+              display Name
+            </label>
+            <input
+              type="text"
+              id="displayName"
+              className=" py-2 px-2 rounded-md w-full max-w-[500px] mb-2"
+              placeholder="Display Name"
+            />
+          </div>
+          {/* add profile image */}
+          <div className="w-56 mx-auto self-center">
+            <h3 className="capitalize font-bold mb-3">add image</h3>
+            <div
+              onClick={handleImageClick}
+              className="bg-white flex items-center justify-center p-7 rounded-md"
+            >
+              <div>
+                <span className="bg-grey relative border-4 w-20 h-20 flex items-center justify-center mb-4 rounded-full border-red">
+                  {image ? (
+                    <Image
+                      src={URL.createObjectURL(image)}
+                      fill
+                      alt="Profile Image"
+                      className="object-cover rounded-full"
+                    />
+                  ) : (
+                    <MdAddAPhoto size={50} className="text-red" />
+                  )}
+                </span>
+                <input
+                  type="file"
+                  id="profile"
+                  ref={profileRef}
+                  className="hidden"
+                  onChange={e => setImage(e.target.files[0])}
+                />
+                <label htmlFor="profile" className="capitalize font-bold">
+                  profile photo
+                </label>
+              </div>
             </div>
           </div>
         </div>
